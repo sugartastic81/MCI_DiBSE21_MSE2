@@ -6,7 +6,7 @@ character.o: character.cpp character.h
 	g++ -c -o character.o character.cpp
 hero.o: hero.cpp hero.h
 	g++ -c -o hero.o hero.cpp
-itme.o: item.cpp item.h
+item.o: item.cpp item.h
 	g++ -c -o item.o item.cpp
 clean:
 	rm -rf prototyp main.o hero.o character.o item.o
