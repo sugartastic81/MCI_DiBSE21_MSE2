@@ -13,6 +13,8 @@ void Item::initItem(const std::string &var_name, int var_gold) {
     this->setIsValid(true);
 }
 
-
+int xrand(int valstart, int valend) {
+    return (rand() % (valend - valstart) ) + valstart;
+}
 
 

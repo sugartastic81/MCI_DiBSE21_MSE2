@@ -20,7 +20,7 @@ void Character::printCharacterStats() {
     std::cout << "baddie:" << this->getName() << " || health:" << this->getHealth() << " || gold:" << this->getGold() << " || items:";
     for (i = 0; i < INVENTORYSIZE; i++) {
         if (inventory[i].getIsValid() ) {
-            std::cout << inventory[i].getName();
+            std::cout << inventory[i].getName() << "(" << inventory[i].getGold() << ")";
         }
         if(i < INVENTORYSIZE-1) {
             if (inventory[i+1].getIsValid()) std::cout << "|";
@@ -51,7 +51,7 @@ Item Character::removeInventarItem(int slot) {
 }
 
 void Character::attack(Hero* hero) {
-    int damage = random_number_generator(5,16);
+    int damage = xrand(5,16);
     hero->setHealth( hero->getHealth() - damage);
     std::cout << name << " trifft " << hero->getName() << " fuer " << damage << " Lebenspunkte!" << std::endl;
 }

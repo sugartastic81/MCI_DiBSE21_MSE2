@@ -24,7 +24,7 @@ void Hero::printHeroStats() {
     std::cout << "hero:" << this->getName() << " || health:" << this->getHealth() << " || gold:" << this->getGold() << " || items:";
     for (i = 0; i < INVENTORYSIZE; i++) {
         if (inventory[i].getIsValid() ) {
-            std::cout << inventory[i].getName();
+            std::cout << inventory[i].getName() << "(" << inventory[i].getGold() << ")";
         }
         if(i < INVENTORYSIZE-1) {
             if (inventory[i+1].getIsValid()) std::cout << "|";
@@ -33,7 +33,7 @@ void Hero::printHeroStats() {
     std::cout << " || gear:";
     for (i = 0; i < GEARSIZE; i++) {
         if (gear[i].getIsValid() ) {
-            std::cout << gear[i].getName();
+            std::cout << gear[i].getName() << "(" << gear[i].getGold() << ")";
         }
         if(i < GEARSIZE-1) {
             if (gear[i+1].getIsValid()) std::cout << "|";
@@ -66,10 +66,10 @@ Item Hero::removeInventarItem(int slot) {
 void Hero::sellItem(int slot) {
     if (slot >= 0 && slot < INVENTORYSIZE) {
         if (inventory[slot].getIsValid()) {
+            std::cout << "Gegenstand " << inventory[slot].getName() << " wird um " << inventory[slot].getGold() << " verkauft. ";
             gold += inventory[slot].getGold();
             inventory[slot].setIsValid(false);
-            std::cout << "Gegenstand " << inventory[slot].getName() << " wurde verkauft. "
-                      << name << " besitzt nun " << gold << " Gold." << std::endl;
+            std::cout << getName() << " besitzt nun " << getGold() << " Gold." << std::endl;
         }
     }
 }
@@ -96,30 +96,26 @@ Item Hero::removeEquipmentItem(int slot) {
 }
 
 void Hero::attack(Character* enemy) {
-    int damage = random_number_generator(15,26);
+    int damage = xrand(15,26);
     std::cout << name << " trifft " << enemy->getName() << " fuer " << damage << " Lebenspunkte!" << std::endl;
     enemy->setHealth(enemy->getHealth() - damage);
 }
 
 bool Hero::fight(Character* enemy) {
-    while (health > 0 && enemy->getHealth() > 0) {
+    while (this->getHealth() > 0 && enemy->getHealth() > 0) {
         attack(enemy);
         if (enemy->getHealth() > 0) {
             enemy->attack(this);
         }
     }
-    if (health > 0) {
-        std::cout << name << " hat gewonnen!" << std::endl;
-        for (int i = 0; i < 10; i++) {
-            int shuffeling = random_number_generator(0,INVENTORYSIZE-1);
-            Item var_item = enemy->removeInventarItem(shuffeling);
-            if (var_item.getIsValid()) {
-                if (addInventarItem(var_item) == -1) {
-                    std::cout << "Kein Platz mehr fuer dieses Item vorhanden!" << std::endl;
-                } else {
-                    std::cout << name << " erbeutet " << var_item.getName() << "!" << std::endl;
-                }
-                break;
+    if (this->getHealth() > 0) {
+        std::cout << this->getName() << " hat gewonnen!" << std::endl;
+        Item var_item = enemy->removeInventarItem(xrand(0,INVENTORYSIZE-1));
+        if (var_item.getIsValid()) {
+            if (addInventarItem(var_item) == -1) {
+                std::cout << "Kein Platz mehr fuer dieses Item vorhanden!" << std::endl;
+            } else {
+                std::cout << name << " erbeutet " << var_item.getName() << "!" << std::endl;
             }
         }
     } else {

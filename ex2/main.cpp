@@ -2,7 +2,6 @@
 // Created by juerg on 20.02.2022.
 //
 #include <iostream>
-#include <random>
 #include "character.h"
 #include "hero.h"
 #include "item.h"
@@ -14,16 +13,10 @@ struct BADDIE {
     Item baddieItems[STARTINGINVENTORY];
 };
 
-int random_number_generator(int valstart, int valend) {
-    int randomnumber;
-    std::mt19937 charMT(clock() + 42);
-    std::uniform_int_distribution<int> randMT(valstart,valend );
-    randomnumber = randMT(charMT);
-    return randomnumber;
-}
 
 int main() {
-    int i, j, itemset;
+    int i, j;
+    srand( (unsigned) time(nullptr));
 
     // Initialisiert die Schurken und die möglichen Items
     string goodguys[3] = {"Annina", "Lukas", "Victor"};
@@ -40,21 +33,21 @@ int main() {
 
     // Initialisiert die Held:in mit 300 Lebenspunkten und 1 Goldtaler
     Hero thehero;
-    thehero.initHero(goodguys[random_number_generator(0,sum_goodguys-1)], 300, 1);
+    thehero.initHero(goodguys[xrand(0,sum_goodguys-1)], 300, 1);
     Item dummyequipment;
-    dummyequipment.initItem("Murmeln", random_number_generator(10,60) );
+    dummyequipment.initItem("Murmeln", xrand(10,60) );
     thehero.addEquipmentItem(dummyequipment);
-    dummyequipment.initItem("Steinschleuder", random_number_generator(10,600) );
+    dummyequipment.initItem("Steinschleuder", xrand(10,600) );
     thehero.addEquipmentItem(dummyequipment);
     thehero.printHeroStats();
 
     // Initialisiert die Schurken mit Zufallswerten
     struct BADDIE baddies[NUMBER_OF_BADGUYS];
     for(i=0; i < NUMBER_OF_BADGUYS; i++){
-        baddies[i].baddieCharacter.initCharacter(badguys[random_number_generator(0,sum_badguys-1)], random_number_generator(50,150), random_number_generator(80,200) );
-        itemset = random_number_generator(0,DIFFERENTINVENTORIES-1); // Zufallszahl für das Ausrüstungsset
+        baddies[i].baddieCharacter.initCharacter(badguys[xrand(0,sum_badguys-1)], xrand(50,150), xrand(80,200) );
+
         for(j=0; j < STARTINGINVENTORY; j++) {
-            baddies[i].baddieItems[j].initItem(possibleitems[j][itemset], random_number_generator(10,60) );
+            baddies[i].baddieItems[j].initItem(possibleitems[j][xrand(0,DIFFERENTINVENTORIES-1)], xrand(10,60) );
             baddies[i].baddieCharacter.addInventarItem(baddies[i].baddieItems[j]);
         }
         baddies[i].baddieCharacter.printCharacterStats();

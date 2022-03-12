@@ -12,7 +12,7 @@
 
 #include <string>
 
-int random_number_generator (int valstart, int valend);
+int xrand(int valstart, int valend);
 
 class Item {
 private:
