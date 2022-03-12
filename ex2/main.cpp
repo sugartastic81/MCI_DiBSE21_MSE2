@@ -23,6 +23,8 @@ int random_number_generator(int valstart, int valend) {
 }
 
 int main() {
+    int i, j, itemset;
+
     // Initialisiert die Schurken und die möglichen Items
     string goodguys[3] = {"Annina", "Lukas", "Victor"};
     int sum_goodguys = sizeof(goodguys)/sizeof(goodguys[0]);
@@ -39,10 +41,14 @@ int main() {
     // Initialisiert die Held:in mit 300 Lebenspunkten und 1 Goldtaler
     Hero thehero;
     thehero.initHero(goodguys[random_number_generator(0,sum_goodguys-1)], 300, 1);
+    Item dummyequipment;
+    dummyequipment.initItem("Murmeln", random_number_generator(10,60) );
+    thehero.addEquipmentItem(dummyequipment);
+    dummyequipment.initItem("Steinschleuder", random_number_generator(10,600) );
+    thehero.addEquipmentItem(dummyequipment);
     thehero.printHeroStats();
 
     // Initialisiert die Schurken mit Zufallswerten
-    int i, j, itemset;
     struct BADDIE baddies[NUMBER_OF_BADGUYS];
     for(i=0; i < NUMBER_OF_BADGUYS; i++){
         baddies[i].baddieCharacter.initCharacter(badguys[random_number_generator(0,sum_badguys-1)], random_number_generator(50,150), random_number_generator(80,200) );
@@ -54,6 +60,7 @@ int main() {
         baddies[i].baddieCharacter.printCharacterStats();
     }
 
+    // Held kämpft gegen alle Schurken
     i=0;
     while(thehero.getHealth() > 0 && i < NUMBER_OF_BADGUYS ) {
         std::cout << "\n" << thehero.getName() << " kaempft gegen den Schurken " << baddies[i].baddieCharacter.getName() << "\n";

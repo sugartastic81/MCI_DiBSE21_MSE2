@@ -6,9 +6,9 @@
 #include "item.h"
 
 void Character::initCharacter(const std::string &var_name, int var_health, int var_gold) {
-    this->name = var_name;
-    this->health = var_health;
-    this->gold = var_gold;
+    this->setName(var_name);
+    this->setHealth(var_health);
+    this->setGold(var_gold);
     int i;
     for (i = 0; i < INVENTORYSIZE; i++) {
         inventory[i].initItem();
@@ -17,7 +17,7 @@ void Character::initCharacter(const std::string &var_name, int var_health, int v
 
 void Character::printCharacterStats() {
     int i;
-    std::cout << "baddie:" << name << " || health:" << health << " || gold:" << gold << " || items:";
+    std::cout << "baddie:" << this->getName() << " || health:" << this->getHealth() << " || gold:" << this->getGold() << " || items:";
     for (i = 0; i < INVENTORYSIZE; i++) {
         if (inventory[i].getIsValid() ) {
             std::cout << inventory[i].getName();
@@ -40,14 +40,14 @@ int Character::addInventarItem(const Item &item) {
 }
 
 Item Character::removeInventarItem(int slot) {
-    Item item;
+    Item var_item;
     if (inventory[slot].getIsValid() && slot >= 0 && slot < INVENTORYSIZE ) {
-        item = inventory[slot];
+        var_item = getInventory(slot);
         inventory[slot].setIsValid(false);
     } else {
-        item.initItem();
+        var_item.initItem();
     }
-    return item;
+    return var_item;
 }
 
 void Character::attack(Hero* hero) {

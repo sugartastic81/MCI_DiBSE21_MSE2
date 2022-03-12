@@ -64,9 +64,8 @@ public:
     int addInventarItem(const Item& item);
     Item removeInventarItem(int slot);
 
-
     // private variable gear getter & setter
-    Item getGear(int slot) const {
+    Item getEquipment(int slot) const {
         if (slot < 0 || slot > 1) {
             Item item;
             item.initItem();
