@@ -16,23 +16,22 @@ void Hero::initHero(const std::string &var_name, int var_health, int var_gold) {
     }
 }
 
-void Hero::printHero() {
-    std::cout << "Heldin: " << name << "   Gesundheit: " << health << "   Gold: " << gold << std::endl;
-}
-
-void Hero::printHeroItems() {
-    std::cout << "Items: ";
+void Hero::printHeroStats() {
     int i;
+    std::cout << "hero:" << name << " || health:" << health << " || gold:" << gold << " || items:";
     for (i = 0; i < INVENTORYSIZE; i++) {
         if (inventory[i].getIsValid() ) {
-            std::cout << inventory[i].getName() << ", ";
+            std::cout << inventory[i].getName();
+        }
+        if(i < INVENTORYSIZE-1) {
+            if (inventory[i+1].getIsValid()) std::cout << "|";
         }
     }
     std::cout << std::endl;
 }
 
 int Hero::addInventarItem(const Item &item) {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < INVENTORYSIZE; i++) {
         if (!inventory[i].getIsValid()) {
             inventory[i] = item;
             return i;
@@ -42,27 +41,22 @@ int Hero::addInventarItem(const Item &item) {
 }
 
 Item Hero::removeInventarItem(int slot) {
-    if (slot < 0 || slot > 9) {
-        Item item;
-        item.initItem();
-        return item;
-    } else if (inventory[slot].getIsValid()) {
-        Item retval = inventory[slot];
+    Item item;
+    if (inventory[slot].getIsValid() && slot >= 0 && slot < INVENTORYSIZE ) {
+        item = inventory[slot];
         inventory[slot].setIsValid(false);
-        return retval;
     } else {
-        Item item;
         item.initItem();
-        return item;
     }
+    return item;
 }
 
-void Hero::sellItem(int index) {
-    if (index >= 0 && index < 10) {
-        if (inventory[index].getIsValid()) {
-            gold += inventory[index].getGold();
-            inventory[index].setIsValid(false);
-            std::cout << "Gegenstand " << inventory[index].getName() << " wurde verkauft. "
+void Hero::sellItem(int slot) {
+    if (slot >= 0 && slot < INVENTORYSIZE) {
+        if (inventory[slot].getIsValid()) {
+            gold += inventory[slot].getGold();
+            inventory[slot].setIsValid(false);
+            std::cout << "Gegenstand " << inventory[slot].getName() << " wurde verkauft. "
                       << name << " besitzt nun " << gold << " Gold." << std::endl;
         }
     }
@@ -80,19 +74,15 @@ int Hero::addEquipmentItem(const Item &item) {
 }
 
 Item Hero::removeEquipmentItem(int slot) {
-    if (slot < 0 || slot > 1) {
-        Item item;
-        item.initItem();
-        return item;
-    } else if (gear[slot].getIsValid()) {
-        Item retval = gear[slot];
+    Item item;
+    if (gear[slot].getIsValid() && slot >= 0 && slot <= 1 ) {
+        item = gear[slot];
         gear[slot].setIsValid(false);
-        return retval;
-    } else {
+    }else{
         Item item;
         item.initItem();
-        return item;
     }
+    return item;
 }
 
 void Hero::attack(Character* enemy) {
@@ -112,11 +102,11 @@ bool Hero::fight(Character* enemy) {
     if (health > 0) {
         std::cout << name << " hat gewonnen!" << std::endl;
         for (int i = 0; i < 10; i++) {
-            int dice = random_number_generator(0,9);
+            int dice = random_number_generator(0,INVENTORYSIZE-1);
             Item loot = enemy->removeInventarItem(dice);
             if (loot.getIsValid()) {
                 if (addInventarItem(loot) == -1) {
-                    std::cout << "Kein Platz mehr vorhanden!" << std::endl;
+                    std::cout << "Kein Platz mehr fuer dieses Item vorhanden!" << std::endl;
                 } else {
                     std::cout << name << " erbeutet " << loot.getName() << "!" << std::endl;
                 }

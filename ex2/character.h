@@ -4,6 +4,8 @@
 #ifndef PROTOTYP_CHARACTER_H
 #define PROTOTYP_CHARACTER_H
 
+#define NUMBER_OF_BADGUYS 3
+
 #include <string>
 #include "item.h"
 #include "hero.h"
@@ -18,8 +20,7 @@ private:
     Item inventory[INVENTORYSIZE];
 public:
     void initCharacter(const std::string &name, int health, int gold);
-    void printCharacter();
-    void printCharacterItems();
+    void printCharacterStats();
 
     // private variable name getter & setter
     const std::string& getName() const {
@@ -49,13 +50,13 @@ public:
 
 
     // private variable inventory getter & setter
-    Item getInventory(int index) const {
-        if (index < 0 || index > 1) {
+    Item getInventory(int slot) const {
+        if (slot < 0 || slot > 1) {
             Item item;
             item.initItem();
             return item;
         }
-        return inventory[index];
+        return inventory[slot];
     }
     int addInventarItem(const Item &item);
     Item removeInventarItem(int slot);

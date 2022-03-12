@@ -19,8 +19,8 @@ private:
     Item gear[GEARSIZE];
 public:
     void initHero(const std::string &name, int health, int gold);
-    void printHero();
-    void printHeroItems();
+
+    void printHeroStats();
 
     void attack(Character* enemy);
 
@@ -53,26 +53,26 @@ public:
     }
 
     // private variable inventory getter & setter
-    Item getInventory(int index) const {
-        if (index < 0 || index > 1) {
+    Item getInventory(int slot) const {
+        if (slot < 0 || slot > 1) {
             Item item;
             item.initItem();
             return item;
         }
-        return inventory[index];
+        return inventory[slot];
     }
     int addInventarItem(const Item& item);
     Item removeInventarItem(int slot);
 
 
     // private variable gear getter & setter
-    Item getGear(int index) const {
-        if (index < 0 || index > 1) {
+    Item getGear(int slot) const {
+        if (slot < 0 || slot > 1) {
             Item item;
             item.initItem();
             return item;
         }
-        return gear[index];
+        return gear[slot];
     }
     int addEquipmentItem(const Item& item);
     Item removeEquipmentItem(int slot);

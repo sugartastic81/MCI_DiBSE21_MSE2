@@ -15,16 +15,15 @@ void Character::initCharacter(const std::string &var_name, int var_health, int v
     }
 }
 
-void Character::printCharacter() {
-    std::cout << "Charakter: " << name << "   Gesundheit: " << health << "   Gold: " << gold << std::endl;
-}
-
-void Character::printCharacterItems() {
-    std::cout << "Items: ";
+void Character::printCharacterStats() {
     int i;
+    std::cout << "baddie:" << name << " || health:" << health << " || gold:" << gold << " || items:";
     for (i = 0; i < INVENTORYSIZE; i++) {
         if (inventory[i].getIsValid() ) {
-            std::cout << inventory[i].getName() << ", ";
+            std::cout << inventory[i].getName();
+        }
+        if(i < INVENTORYSIZE-1) {
+            if (inventory[i+1].getIsValid()) std::cout << "|";
         }
     }
     std::cout << std::endl;
@@ -41,19 +40,14 @@ int Character::addInventarItem(const Item &item) {
 }
 
 Item Character::removeInventarItem(int slot) {
-    if (slot < 0 || slot > 9) {
-        Item item;
-        item.initItem();
-        return item;
-    } else if (inventory[slot].getIsValid()) {
-        Item retval = inventory[slot];
+    Item item;
+    if (inventory[slot].getIsValid() && slot >= 0 && slot < INVENTORYSIZE ) {
+        item = inventory[slot];
         inventory[slot].setIsValid(false);
-        return retval;
     } else {
-        Item item;
         item.initItem();
-        return item;
     }
+    return item;
 }
 
 void Character::attack(Hero* hero) {
