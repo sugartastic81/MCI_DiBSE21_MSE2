@@ -1,1 +1,1 @@
-by jüergen zangerl
+by juergen zangerl
