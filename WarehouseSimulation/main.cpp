@@ -10,6 +10,8 @@
 int main() {
     Warehouse warehouse;
 
+    std::srand(time(0));
+
     std::cout << std::endl;
     std::cout << "THE WENDLER SPECIAL WAREHOUSE SIMULATION STARTS!" << std::endl;
     std::cout << "---------------------" << std::endl;
@@ -27,7 +29,7 @@ int main() {
         }
     }
 
-    warehouse.conveyorSystem(3);
+    warehouse.conveyorSystem(1);
 
     std::cout << std::endl;
     std::cout << "---------------------" << std::endl;
