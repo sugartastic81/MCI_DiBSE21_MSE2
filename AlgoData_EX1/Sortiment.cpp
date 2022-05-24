@@ -6,6 +6,9 @@
 #include "Sortiment.h"
 #include "Algorithms.h"
 #include "exceptions.h"
+#include <unistd.h>
+
+
 
 void Sortiment::sort(int modus) {
     if( modus == 1) { // int modus == 1: Sortierung nach Seriennummer mithilfe des quicksort-Algorithmus
@@ -13,7 +16,7 @@ void Sortiment::sort(int modus) {
         std::cout << std::endl << "int modus == " << modus << ": Sortierung nach Seriennummer mithilfe des quicksort-Algorithmus." << std::endl;
         std::cout << std::endl << "VIEW SORTIMENT BEFORE SORT" << std::endl;
         this->view();
-        quicksort_array(this);
+        this->quicksort_seriennummer(0,9);
         std::cout << std::endl << "VIEW SORTIMENT AFTER SORT" << std::endl;
         this->view();
         std::cout << std::endl << "------------" << std::endl;
@@ -32,7 +35,7 @@ void Sortiment::sort(int modus) {
 
 void Sortiment::addWare(Ware* ware) {
     int i = 0, success = 0;
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < MAXELEMENTS; i++) {
         if ( !this->waren[i] ) {
             this->waren[i] = ware;
             std::cout << "Add Bezeichnung " << this->waren[i]->getBezeichnung() << " mit SNR " << this->waren[i]->getSeriennummer() << ", Gewicht " << this->waren[i]->getGewicht() << " kg, EP " << this->waren[i]->getEinkaufspreis() << " EUR, VP " << this->waren[i]->getVerkaufspreis()<< " EUR." << std::endl;
@@ -48,8 +51,83 @@ void Sortiment::addWare(Ware* ware) {
 
 void Sortiment::view() {
     int i = 0;
-    while ( this->waren[i] ) {
+    while ( i < MAXELEMENTS ) {
         std::cout << this->waren[i] << " <- ADR ___ " << this->waren[i]->getBezeichnung() << ", SNR " << this->waren[i]->getSeriennummer() << ", Gewicht " << this->waren[i]->getGewicht() << " kg, EP " << this->waren[i]->getEinkaufspreis() << " EUR, VP " << this->waren[i]->getVerkaufspreis()<< " EUR." << std::endl;
         i++;
     }
+}
+
+// https://www.softwaretestinghelp.com/quick-sort/#C_Example
+int Sortiment::quicksort_pivot(int low, int high)
+{
+    int pivot = this->waren[high]->getSeriennummer();
+    int i = low-1;
+
+    for (int j = low; j <= high- 1; j++)
+    {
+        //if current element is smaller than pivot, increment the low element
+        //swap elements at i and j
+        if (waren[j]->getSeriennummer() <= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap_waren(i, j);
+        }
+    }
+    swap_waren(i+1, high);
+    return i+1;
+}
+
+
+void Sortiment::quicksort_seriennummer(int low, int high) {
+    if (low < high)
+    {
+        //partition the array
+        int pivot = quicksort_pivot(low, high);
+
+        //sort the sub arrays independently
+        quicksort_seriennummer(low, pivot - 1);
+        quicksort_seriennummer(pivot + 1, high);
+    }
+
+    // return pivotIndex;
+
+/*    while ( this->waren[i] && i < 9 ) {
+        std::cout << this->waren[i]->getSeriennummer() << " > " << this->waren[i+1]->getSeriennummer() << std::endl;
+        if( this->waren[i]->getSeriennummer() > this->waren[i+1]->getSeriennummer() ) {
+            std::cout << "SWAP" << std::endl;
+            this->swap_waren(i, i+1);
+        }else{
+            std::cout << "NO SWAP" << std::endl;
+            i++;
+        }
+    }*/
+}
+
+
+void Sortiment::swap_waren(int posA, int posB) {
+    Ware warendummy;
+    //std::cout << " Ware 1 ::: " << this->waren[posA]->getBezeichnung() << ", SNR " << this->waren[posA]->getSeriennummer() << ", Gewicht " << this->waren[posA]->getGewicht() << " kg, EP " << this->waren[posA]->getEinkaufspreis() << " EUR, VP " << this->waren[posA]->getVerkaufspreis()<< " EUR." << std::endl;
+    //std::cout << " Ware 2 ::: " << this->waren[posB]->getBezeichnung() << ", SNR " << this->waren[posB]->getSeriennummer() << ", Gewicht " << this->waren[posB]->getGewicht() << " kg, EP " << this->waren[posB]->getEinkaufspreis() << " EUR, VP " << this->waren[posB]->getVerkaufspreis()<< " EUR." << std::endl;
+
+    warendummy.setBezeichnung( this->waren[posA]->getBezeichnung() );
+    warendummy.setSeriennummer( this->waren[posA]->getSeriennummer() );
+    warendummy.setGewicht( this->waren[posA]->getGewicht() );
+    warendummy.setEinkaufspreis( this->waren[posA]->getEinkaufspreis() );
+    warendummy.setVerkaufspreis( this->waren[posA]->getVerkaufspreis() );
+
+    this->waren[posA]->setBezeichnung( this->waren[posB]->getBezeichnung() );
+    this->waren[posA]->setSeriennummer( this->waren[posB]->getSeriennummer() );
+    this->waren[posA]->setGewicht( this->waren[posB]->getGewicht() );
+    this->waren[posA]->setEinkaufspreis( this->waren[posB]->getEinkaufspreis() );
+    this->waren[posA]->setVerkaufspreis( this->waren[posB]->getVerkaufspreis() );
+
+    this->waren[posB]->setBezeichnung( warendummy.getBezeichnung() );
+    this->waren[posB]->setSeriennummer( warendummy.getSeriennummer() );
+    this->waren[posB]->setGewicht( warendummy.getGewicht() );
+    this->waren[posB]->setEinkaufspreis( warendummy.getEinkaufspreis() );
+    this->waren[posB]->setVerkaufspreis( warendummy.getVerkaufspreis() );
+
+    //std::cout << " Ware 1 ::: " << this->waren[posA]->getBezeichnung() << ", SNR " << this->waren[posA]->getSeriennummer() << ", Gewicht " << this->waren[posA]->getGewicht() << " kg, EP " << this->waren[posA]->getEinkaufspreis() << " EUR, VP " << this->waren[posA]->getVerkaufspreis()<< " EUR." << std::endl;
+    //std::cout << " Ware 2 ::: " << this->waren[posB]->getBezeichnung() << ", SNR " << this->waren[posB]->getSeriennummer() << ", Gewicht " << this->waren[posB]->getGewicht() << " kg, EP " << this->waren[posB]->getEinkaufspreis() << " EUR, VP " << this->waren[posB]->getVerkaufspreis()<< " EUR." << std::endl;
+
 }

@@ -17,7 +17,7 @@ private:
     double verkaufspreis;
 public:
     Ware() {
-        std::cout << "Empty constructor Ware. " << std::endl;
+        //std::cout << "Empty constructor Ware. " << std::endl;
     }
 
     Ware(const std::string &bezeichnung, int seriennummer, double gewicht, double einkaufspreis, double verkaufspreis)
@@ -27,7 +27,7 @@ public:
     }
 
     virtual ~Ware() {
-        std::cout << "Destructor Ware. " << std::endl;
+        //std::cout << "Destructor Ware. " << std::endl;
     }
 
     const string &getBezeichnung() const {

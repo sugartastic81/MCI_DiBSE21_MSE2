@@ -39,7 +39,7 @@ int main() {
     try {
         // Initialisiert Waren des Helden
         Sortiment DealerHero;
-        for(int i=0; i < 12; i++ ) {
+        for(int i=0; i < MAXELEMENTS+1; i++ ) {
             DealerHero.addWare( new Ware(gen_random(6), rand() % 899 + 100, rand() % 9 + 1, rand() % 89 + 10, rand() % 89 + 10) );
         }
 

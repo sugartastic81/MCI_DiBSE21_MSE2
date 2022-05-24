@@ -5,6 +5,8 @@
 #ifndef ABGABE1_SORTIMENT_H
 #define ABGABE1_SORTIMENT_H
 
+#define MAXELEMENTS 10
+
 #include <iostream>
 #include "Ware.h"
 
@@ -21,6 +23,9 @@ public:
         //std::cout << "Sortiment::Destructor: " << std::endl;
     }
     void sort(int modus);
+    void swap_waren(int posA, int posB);
+    int quicksort_pivot(int low, int high);
+    void quicksort_seriennummer(int low, int high);
     void addWare(Ware* ware);
     void view();
 };
