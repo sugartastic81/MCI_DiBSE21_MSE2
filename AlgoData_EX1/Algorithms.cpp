@@ -9,7 +9,8 @@
 #include <iostream>
 
 void quicksort_array(Sortiment* sortiment) {
-    int i = 0;
+    //int i = 0;
+    std::cout << std::endl << "I HATE POINTERS " << sortiment << std::endl;
 /*    while ( sortiment->waren[i]->getSeriennummer() > 0 ) {
         std::cout << sortiment->waren[i] << " <- ADR ___ " << sortiment->waren[i]->getBezeichnung() << ", SNR " << sortiment->waren[i]->getSeriennummer() << ", Gewicht " << this->waren[i]->getGewicht() << " kg, EP " << this->waren[i]->getEinkaufspreis() << " EUR, VP " << this->waren[i]->getVerkaufspreis()<< " EUR." << std::endl;
         i++;

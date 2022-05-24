@@ -2,7 +2,7 @@
 # Name of the binary
 BINARY = prototyp
 # Object files
-OBJS   = ${BINARY}.o # main.o Sortiment.o Ware.o Algorithms.o  #hier alle .cpp files einfügen, aber mit .o zusatz oder ${BINARY}.o
+OBJS   = main.o Sortiment.o Ware.o Algorithms.o  #hier alle .cpp files einfügen, aber mit .o zusatz oder ${BINARY}.o
 # Compiler flags
 CFLAGS = -Werror -Wall -std=c++17 #-g hier probieren
 # Linker flags

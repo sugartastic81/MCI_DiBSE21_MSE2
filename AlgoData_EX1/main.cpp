@@ -35,8 +35,6 @@ int main() {
     std::cout << "---------------------" << std::endl;
     std::cout << std::endl;
 
-    srand((unsigned)time(NULL) * getpid());
-
 
     try {
         // Initialisiert Waren des Helden
