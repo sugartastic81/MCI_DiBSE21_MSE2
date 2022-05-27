@@ -70,7 +70,9 @@ public:
         Ware::verkaufspreis = verkaufspreis;
     }
 
+
 };
 
+void swapWaren(Ware *waren[], int posA, int posB);
 
 #endif //ABGABE1_WARE_H

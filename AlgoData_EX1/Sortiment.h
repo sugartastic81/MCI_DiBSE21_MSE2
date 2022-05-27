@@ -5,7 +5,7 @@
 #ifndef ABGABE1_SORTIMENT_H
 #define ABGABE1_SORTIMENT_H
 
-#define MAXELEMENTS 10
+#define MAXWAREROWS 100
 
 #include <iostream>
 #include "Ware.h"
@@ -14,7 +14,8 @@ using namespace std;
 
 class Sortiment {
 private:
-    Ware* waren[10] = {};
+    int WareCounter = 0;
+    Ware* waren[MAXWAREROWS] = {};
 public:
     Sortiment() {}
 
@@ -24,10 +25,12 @@ public:
     }
     void sort(int modus);
     void swap_waren(int posA, int posB);
-    int quicksort_pivot(int low, int high);
-    void quicksort_seriennummer(int low, int high);
     void addWare(Ware* ware);
     void view();
+
+    int getWareCounter() const;
+
+    void setWareCounter(int wareCounter);
 };
 
 #endif //ABGABE1_SORTIMENT_H

@@ -7,58 +7,33 @@
 #include "Sortiment.h"
 #include "Algorithms.h"
 #include "exceptions.h"
-
-// https://stackoverflow.com/questions/440133/how-do-i-create-a-random-alpha-numeric-string-in-c
-std::string gen_random(const int len) {
-    static const char alphanum[] =
-            //"0123456789"
-            //"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            "abcdefghijklmnopqrstuvwxyz";
-    std::string tmp_s;
-    tmp_s.reserve(len);
-
-    tmp_s += "Ware_";
-    for (int i = 0; i < len; ++i) {
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-    return tmp_s;
-}
-
-
+#include "PerformanceTest.h"
+#include "skyrimitemlist.h"
 
 int main() {
-
-    std::srand(time(0));
-
-    std::cout << std::endl;
-    std::cout << "Algorithmen und Datenstrukturen - Uebungsblatt 1 - Antiquities Dealership" << std::endl;
-    std::cout << "---------------------" << std::endl;
-    std::cout << std::endl;
-
+    Skyrimitemlist itemlist;
+    srand( (unsigned) time(nullptr));
+    std::cout << std::endl << "***************************" << std::endl << "Antiquities Dealership of Skyrim Items - Fun with Sorting Algorithms!" << std::endl << "***************************" << std::endl;
 
     try {
-        // Initialisiert Waren des Helden
-        Sortiment DealerHero;
-        for(int i=0; i < MAXELEMENTS+1; i++ ) {
-            DealerHero.addWare( new Ware(gen_random(6), rand() % 899 + 100, rand() % 9 + 1, rand() % 89 + 10, rand() % 89 + 10) );
+        for(int j=1; j <= 5; j++ ) {
+            Sortiment DealerHero;
+            std::cout << std::endl << std::endl <<"------------------------------------" << std::endl << "Generates random new assortment for modus " << j << "." << std::endl << "------------------------------------" << std::endl;
+
+            for(int i=0; i < 10; i++ ) {
+                DealerHero.addWare( new Ware(itemlist.skyrimitems[rand() % SKYRIMITEMCOUNT], rand() % 899 + 100, rand() % 9 + 1, rand() % 89 + 10, rand() % 89 + 10) );
+            }
+
+            DealerHero.view();
+            DealerHero.sort(j);
+            DealerHero.view();
+            std::cout << "------------------------------------" << std::endl << "End of modus " << j << "." << std::endl << "------------------------------------" << std::endl << std::endl;
         }
-
-        // Sortiert die Waren
-        for(int i=1; i < 7; i++ ) {
-            DealerHero.sort(i);
-        }
-
-
-        std::cout << std::endl;
-        std::cout << "---------------------" << std::endl;
-        std::cout << "Ende Uebeung." << std::endl;
-        std::cout << std::endl;
+        std::cout << std::endl << "***************************" << std::endl << "End of the simulation." << std::endl << "***************************" << std::endl << std::endl;
 
     } catch (const std::exception& e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
-
-
 
     return 0;
 }
